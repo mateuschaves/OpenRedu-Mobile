@@ -16,12 +16,12 @@ import { StackNavigator } from 'react-navigation';
 
 type Props = {};
 const app = {
+  // Configurações do aplicativo.
   client_id:      'qHnf1X6EXNnx5Z9DeyAvPRO72ndV8xPsSvbv4uLe',
   grant_type:     'authorization_code',
   client_secret:  'wFlRombfhPcYm96cDHrgOd80udgEAM3Dq8CgrOk1',
   redirect_uri:   'https://github.com/mateuschaves'
 }
-
 export default class Auth extends Component<Props> {
   state = {
     control_redirect: 0,
@@ -46,21 +46,6 @@ export default class Auth extends Component<Props> {
          this.setState({control_redirect: 1});
           this._changeScreen(params);
        }
-    }
-    if(code && this.state.control_post == 0){
-        this.setState({control_post: 1});
-        axios.post(`https://openredu.ufpe.br/oauth/token?code=${code}&client_id=${app.client_id}&grant_type=${app.grant_type}&client_secret=${app.client_secret}&redirect_uri=${app.redirect_uri}`,{
-        }).then(function(response){
-          try {
-            AsyncStorage.setItem('@OpenRedu:token', response.data.access_token);
-            this.props.navigation.navigate('InitAuth');
-          } catch (error){
-            console.log(error);
-          }
-        })
-        .catch(function(error){
-          console.log(error);
-        });
     }
   }
   render() {
