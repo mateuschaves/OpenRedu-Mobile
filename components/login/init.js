@@ -30,12 +30,13 @@ export default class Init extends Component<Props> {
             // Setando o valor 1, informando a execução da função.
             this.setState({control_request: 1});
             // Atribuição por desestruturação.
-            let { params:{ code },
+            let { params:{code},
                   params:{app:{client_id}},
                   params:{app:{client_secret}},
                   params:{app:{grant_type}},
                   params:{app:{redirect_uri}}
                   } = this.state.params;
+            //console.log('client_id init.js : ' + client_id);
             // Requisitando o token a API.
             axios.post('https://openredu.ufpe.br/oauth/token?', {
                 client_id:      client_id,
