@@ -19,15 +19,22 @@ export default class Init extends Component<Props> {
         // Parâmetros passados pelo auth.js.
         params: this.props.navigation.state.params,
     }
+      // Função executada após a montagem do componente.
       componentDidMount(){
+        /* Verificando se os parametros foram passados.
+         * Verificando se a função já foi executada antes.
+         */ 
         if(this.state.params && this.state.control_request == 0){
+            // Setando o valor 1, informando a execução da função.
             this.setState({control_request: 1});
+            // Atribuição por desestruturação.
             let { params:{ code },
                   params:{app:{client_id}},
                   params:{app:{client_secret}},
                   params:{app:{grant_type}},
                   params:{app:{redirect_uri}}
                   } = this.state.params;
+            // Requisitando o token a API.
             axios.post('https://openredu.ufpe.br/oauth/token?', {
                 client_id:      client_id,
                 client_secret:  client_secret,
@@ -35,8 +42,10 @@ export default class Init extends Component<Props> {
                 redirect_uri:   redirect_uri,
                 code:           code,
             }).then(function(response){
+              // Usar o storage para armazenar o token
             })
             .catch(function(error){
+              // Tratar o erro.
             });
         }
     }
