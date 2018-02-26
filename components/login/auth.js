@@ -75,25 +75,33 @@ export default class Auth extends Component<Props> {
   }
   // Executada toda vez que a webview inicia o carregamento de uma nova URL.
   validate_url(url){
+    // Preenchendo um array com true ou false para cada comparação de url.
     let i = urls_permitidas.map(c => {
       return c == url;
     });
+    // Url redirecionada com o parâmetro 'code'.
     let url_code = app.redirect_uri + '?code=' + this.state.code + '&state=';
+    // Verificando se a url redirecionada é igual a url atual.
     if(url_code === url){
       i.push(true);
+    // Gambiarra para quando a URL vem sem o 'code'.
     }else if (url.match('github')){
       i.push(true);
     }else{
       i.push(false);
     }
+    // Array para a contagem de url's proibidas.
     let f = [];
+    // Array para a contagem de url's permitidas.
     let t = [];
+    // Contando.
     i.forEach(element => {
        if(element)
          t.push(1);
        else
          f.push(1);
     });
+    // Se nenhuma url permitida foi acessada, temos que a url atual é inválida. 
     if(t.length == 0)
        console.log('URL INVÁLIDA.')
        return false;
