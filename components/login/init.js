@@ -18,9 +18,11 @@ export default class Init extends Component<Props> {
         control_request: 0,
         // Parâmetros passados pelo auth.js.
         params: this.props.navigation.state.params,
+        // Token.
+        token: '',
     }
       // Função executada após a montagem do componente.
-      componentDidMount(){
+      componentDidMount() {
         /* Verificando se os parametros foram passados.
          * Verificando se a função já foi executada antes.
          */ 
@@ -41,15 +43,18 @@ export default class Init extends Component<Props> {
                 grant_type:     grant_type,
                 redirect_uri:   redirect_uri,
                 code:           code,
-            }).then(function(response){
-              // Usar o storage para armazenar o token
+            }).then((response) => {
+              // Usar o storage para armazenar o token.
+                this.setState({token: response.data.access_token});
             })
             .catch(function(error){
               // Tratar o erro.
+              console.log(error);
             });
         }
     }
   render() {
+    console.log(this.state.token);
     return (
       <View>
           <Text style={styles.textLogin}> Login </Text>
@@ -57,6 +62,7 @@ export default class Init extends Component<Props> {
           title="Login"
           onPress={() => this.props.navigation.navigate('Auth')}
             />
+          { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text> }
       </View>
     );
   }
@@ -84,5 +90,10 @@ const styles = StyleSheet.create({
       color: 'black',
       fontSize: 20,
       fontWeight: 'bold',
+  },
+  tokenText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   }
 });

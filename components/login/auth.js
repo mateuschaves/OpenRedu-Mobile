@@ -41,11 +41,11 @@ export default class Auth extends Component<Props> {
     // Encontrando a posição da palavra 'code' na url.
     let index_code = url.match("code");
     let code = '';
-    // Verificando a posição da palavra 'oauth' na url.
-    let check_url = url.match("oauth");
+    // Verificando a posição da palavra 'openredu' na url.
+    let check_url = url.match("openredu");
     /*
      * ----------TENTATIVA DE EXPLICAÇÃO DA GAMBIARRA----------
-     * Quando a palavra 'oauth' não estiver mais contida na url,
+     * Quando a palavra 'openredu' não estiver mais contida na url,
      * o usuário foi redirecionado para a url desejada com o
      * 'code', que será utilizado para obter o token de acesso.
      */
