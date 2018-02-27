@@ -12,6 +12,9 @@ import { StackNavigator } from 'react-navigation';
 import axios from 'axios';
 
 export default class Init extends Component<Props> {
+    static navigationOptions = {
+        headerTitle: <Text>Login</Text>
+    };
     state = {
         // Evita que o código seja executado duas vezes.
         // Gambiarra de um bug desconhecido.
@@ -94,6 +97,11 @@ const styles = StyleSheet.create({
   tokenText: {
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  textHeader: {
+    fontSize: 10,
+    fontWeight: 'normal',
     textAlign: 'center',
   }
 });

@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import {
   Platform,
   WebView,
+  Button,
   AsyncStorage,
+  Text,
+  Alert
 } from 'react-native';
 
 import axios from 'axios';
@@ -27,6 +30,9 @@ const urls_permitidas = [
 ];
 
 export default class Auth extends Component<Props> {
+  static navigationOptions = {
+    headerTitle: <Text style={{marginLeft: 25,}}> Autorize nossa aplicação. </Text>
+};
   state = {
     // Variável que controla a função changeScrenn().
     control_redirect: 0,
@@ -106,6 +112,7 @@ export default class Auth extends Component<Props> {
     if(t.length == 0) {
       // Código javascript que redireciona a webview para a url de autorização do aplicativo.
       let js = "window.location.replace('https://openredu.ufpe.br/oauth/authorize?response_type=code&client_id=qHnf1X6EXNnx5Z9DeyAvPRO72ndV8xPsSvbv4uLe&redirect_uri=https://github.com/mateuschaves&client_secret=wFlRombfhPcYm96cDHrgOd80udgEAM3Dq8CgrOk1')";
+      Alert.alert('Autorize o acesso da nossa aplicação para continuar.');
       this.setState({code_js: js});
       return false;
     }else{
