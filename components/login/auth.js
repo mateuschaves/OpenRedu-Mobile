@@ -25,13 +25,14 @@ const urls_permitidas = [
   'https://openredu.ufpe.br/oauth/authorize',
   'https://github.com/mateuschaves?code=&state='
 ];
-    
 
 export default class Auth extends Component<Props> {
   state = {
     // Variável que controla a função changeScrenn().
     control_redirect: 0,
     code:'',
+    // Código javascript que cancela a requisição inválida.
+    code_js:'',
   }
   // Executada toda vez em que a webview muda de estado.
    _onNavigationStateChange(webViewState){
@@ -85,7 +86,7 @@ export default class Auth extends Component<Props> {
     if(url_code === url){
       i.push(true);
     // Gambiarra para quando a URL vem sem o 'code'.
-    }else if (url.match('github')){
+    }else if (url.match('github') && url.match('code')){
       i.push(true);
     }else{
       i.push(false);
@@ -102,14 +103,20 @@ export default class Auth extends Component<Props> {
          f.push(1);
     });
     // Se nenhuma url permitida foi acessada, temos que a url atual é inválida. 
-    if(t.length == 0)
-       console.log('URL INVÁLIDA.')
-       return false;
+    if(t.length == 0) {
+      // Código javascript que redireciona a webview para a url de autorização do aplicativo.
+      let js = "window.location.replace('https://openredu.ufpe.br/oauth/authorize?response_type=code&client_id=qHnf1X6EXNnx5Z9DeyAvPRO72ndV8xPsSvbv4uLe&redirect_uri=https://github.com/mateuschaves&client_secret=wFlRombfhPcYm96cDHrgOd80udgEAM3Dq8CgrOk1')";
+      this.setState({code_js: js});
+      return false;
+    }else{
+      this.setState({code_js: ''});
+    }
   }
   render() {
     return (
       <WebView
         onNavigationStateChange={this._onNavigationStateChange.bind(this)}
+        injectedJavaScript={this.state.code_js}
         javaScriptEnabled = {true}
         domStorageEnabled = {true}
         source={{uri: 'https://openredu.ufpe.br/oauth/authorize?response_type=code&client_id=qHnf1X6EXNnx5Z9DeyAvPRO72ndV8xPsSvbv4uLe&redirect_uri=https://github.com/mateuschaves&client_secret=wFlRombfhPcYm96cDHrgOd80udgEAM3Dq8CgrOk1'}}

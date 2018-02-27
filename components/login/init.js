@@ -55,7 +55,6 @@ export default class Init extends Component<Props> {
         }
     }
   render() {
-    console.log(this.state.token);
     return (
       <View>
           <Text style={styles.textLogin}> Login </Text>
