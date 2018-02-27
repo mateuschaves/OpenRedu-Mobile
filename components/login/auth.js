@@ -26,8 +26,10 @@ const urls_permitidas = [
   'https://openredu.ufpe.br/oauth/authorize?response_type=code&client_id=qHnf1X6EXNnx5Z9DeyAvPRO72ndV8xPsSvbv4uLe&redirect_uri=https://github.com/mateuschaves&client_secret=wFlRombfhPcYm96cDHrgOd80udgEAM3Dq8CgrOk1#',
   'https://openredu.ufpe.br/entrar',
   'https://openredu.ufpe.br/oauth/authorize',
+  'http://openredu.ufpe.br/oauth/authorize',
   'https://github.com/mateuschaves?code=&state='
 ];
+ const js = "window.location.replace('https://openredu.ufpe.br/oauth/authorize?response_type=code&client_id=qHnf1X6EXNnx5Z9DeyAvPRO72ndV8xPsSvbv4uLe&redirect_uri=https://github.com/mateuschaves&client_secret=wFlRombfhPcYm96cDHrgOd80udgEAM3Dq8CgrOk1')";
 
 export default class Auth extends Component<Props> {
   static navigationOptions = {
@@ -109,13 +111,19 @@ export default class Auth extends Component<Props> {
          f.push(1);
     });
     // Se nenhuma url permitida foi acessada, temos que a url atual é inválida. 
-    if(t.length == 0) {
+    if(url == 'http://openredu.ufpe.br/oauth/authorize'){
+      params = {
+        app: app,
+        code: this.state.code,
+      }
+        this._changeScreen(params);
+      }
+    if(t.length == 0 ) {
+      
       // Código javascript que redireciona a webview para a url de autorização do aplicativo.
-      let js = "window.location.replace('https://openredu.ufpe.br/oauth/authorize?response_type=code&client_id=qHnf1X6EXNnx5Z9DeyAvPRO72ndV8xPsSvbv4uLe&redirect_uri=https://github.com/mateuschaves&client_secret=wFlRombfhPcYm96cDHrgOd80udgEAM3Dq8CgrOk1')";
-      Alert.alert('Autorize o acesso da nossa aplicação para continuar.');
       this.setState({code_js: js});
-      return false;
-    }else{
+      Alert.alert('Autorize o acesso da nossa aplicação para continuar.');
+    }else if(this.state.code_js != ''){
       this.setState({code_js: ''});
     }
   }

@@ -23,6 +23,8 @@ export default class Init extends Component<Props> {
         params: this.props.navigation.state.params,
         // Token.
         token: '',
+        // Mensagem de erro mostrada quando o usuário nega o acesso do aplicativo.
+        msg_token_not_provided: '',
     }
       // Função executada após a montagem do componente.
       componentDidMount() {
@@ -39,22 +41,26 @@ export default class Init extends Component<Props> {
                   params:{app:{grant_type}},
                   params:{app:{redirect_uri}}
                   } = this.state.params;
-            //console.log('client_id init.js : ' + client_id);
-            // Requisitando o token a API.
-            axios.post('https://openredu.ufpe.br/oauth/token?', {
-                client_id:      client_id,
-                client_secret:  client_secret,
-                grant_type:     grant_type,
-                redirect_uri:   redirect_uri,
-                code:           code,
-            }).then((response) => {
-              // Usar o storage para armazenar o token.
-                this.setState({token: response.data.access_token});
-            })
-            .catch(function(error){
-              // Tratar o erro.
-              console.log(error);
-            });
+            // Verificando se o parâmetro 'code' foi passado. 
+            if(code){
+                // Requisitando o token a API.
+                axios.post('https://openredu.ufpe.br/oauth/token?',{
+                  client_id:      client_id,
+                  client_secret:  client_secret,
+                  grant_type:     grant_type,
+                  redirect_uri:   redirect_uri,
+                  code:           code,
+                }).then((response) => {
+                // Usar o storage para armazenar o token.
+                  this.setState({token: response.data.access_token});
+                })
+                .catch(function(error){
+                // Tratar o erro.
+                console.log(error);
+                });
+            }else{
+              this.setState({msg_token_not_provided: 'É necessário permitir o acesso a sua conta para continuar.'})
+            }
         }
     }
   render() {
@@ -66,6 +72,7 @@ export default class Init extends Component<Props> {
           onPress={() => this.props.navigation.navigate('Auth')}
             />
           { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text> }
+          { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text> }
       </View>
     );
   }
