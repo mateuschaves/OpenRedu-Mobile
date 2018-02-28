@@ -112,17 +112,18 @@ export default class Auth extends Component<Props> {
     });
     // Se nenhuma url permitida foi acessada, temos que a url atual é inválida. 
     if(url == 'http://openredu.ufpe.br/oauth/authorize'){
+      // Declarando os parâmetros que serão utilizados na próxima tela.
       params = {
         app: app,
         code: this.state.code,
       }
+       // Trocando de tela.
         this._changeScreen(params);
       }
     if(t.length == 0 ) {
       
       // Código javascript que redireciona a webview para a url de autorização do aplicativo.
       this.setState({code_js: js});
-      Alert.alert('Autorize o acesso da nossa aplicação para continuar.');
     }else if(this.state.code_js != ''){
       this.setState({code_js: ''});
     }
