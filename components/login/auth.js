@@ -118,7 +118,7 @@ export default class Auth extends Component<Props> {
         code: this.state.code,
       }
        // Trocando de tela.
-        this._changeScreen(params);
+       this._changeScreen(params);
       }
     if(t.length == 0 ) {
       

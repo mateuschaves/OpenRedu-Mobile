@@ -25,6 +25,11 @@ export default class Init extends Component<Props> {
         token: '',
         // Mensagem de erro mostrada quando o usuário nega o acesso do aplicativo.
         msg_token_not_provided: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+        login: '',
+        friends: 0,
     }
       // Função executada após a montagem do componente.
       componentDidMount() {
@@ -62,6 +67,28 @@ export default class Init extends Component<Props> {
               this.setState({msg_token_not_provided: 'É necessário permitir o acesso a sua conta para continuar.'})
             }
         }
+       
+    }
+    _me(){
+      if(this.state.token != ''){
+        axios.get('https://openredu.ufpe.br/api/me', {
+          headers: {
+            'Authorization': 'Bearer ' + this.state.token,
+          }
+        })
+        .then((response) => {
+          this.setState({
+            first_name:   response.data.first_name,
+            email:        response.data.email,
+            login:        response.data.login,
+            friends:      response.data.friends_count,
+            last_name:    response.data.last_name,
+          })
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+     }
     }
   render() {
     return (
@@ -71,8 +98,14 @@ export default class Init extends Component<Props> {
           title="Login"
           onPress={() => this.props.navigation.navigate('Auth')}
             />
-          { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text> }
+          { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text>}
+          { !!this.state.token && <Button style={styles.getMeButton} title="Get me" onPress={() => this._me()}/>}
           { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text> }
+
+          {!!this.state.first_name    && !!this.state.last_name   && <Text style={styles.tokenText}>Nome completo:   {this.state.first_name}  {this.state.last_name}  </Text>}
+          {!!this.state.email         && <Text style={styles.tokenText}>Email:  {this.state.email}  </Text>}
+          {!!this.state.login         && <Text style={styles.tokenText}>Login:  {this.state.login}  </Text>}
+          {!!this.state.friends       && <Text style={styles.tokenText}>Amigos:   {this.state.friends}   </Text>}
       </View>
     );
   }
@@ -110,5 +143,8 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 'normal',
     textAlign: 'center',
+  },
+  getMeButton: {
+    paddingTop: 20,
   }
 });
