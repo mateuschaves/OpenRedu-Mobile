@@ -5,13 +5,16 @@ import {
   Text,
   View,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
-import axios from 'axios';
+
+import axios from '../../lib/http';
 
 export default class Init extends Component<Props> {
+  
     static navigationOptions = {
         headerTitle: <Text>Login</Text>
     };
@@ -25,14 +28,16 @@ export default class Init extends Component<Props> {
         token: '',
         // Mensagem de erro mostrada quando o usuário nega o acesso do aplicativo.
         msg_token_not_provided: '',
+        // Armazena informações do aluno.
         first_name: '',
         last_name: '',
         email: '',
         login: '',
         friends: 0,
+        teste: ''
     }
       // Função executada após a montagem do componente.
-      componentDidMount() {
+        componentDidMount = async () =>  {
         /* Verificando se os parametros foram passados.
          * Verificando se a função já foi executada antes.
          */ 
@@ -55,21 +60,35 @@ export default class Init extends Component<Props> {
                   grant_type:     grant_type,
                   redirect_uri:   redirect_uri,
                   code:           code,
-                }).then((response) => {
-                // Usar o storage para armazenar o token.
+                }).then( async (response) => {
                   this.setState({token: response.data.access_token});
+                  // Usar o storage para armazenar o token.
+                  try {
+                   this.storageToken(this.state.token);
+                   console.log(this.getToken());
+                  }catch(error){
+                    console.log(error);
+                  }
                 })
                 .catch(function(error){
                 // Tratar o erro.
                 console.log(error);
                 });
             }else{
-              this.setState({msg_token_not_provided: 'É necessário permitir o acesso a sua conta para continuar.'})
+              this.setState({msg_token_not_provided: 'É necessário permitir o acesso a sua conta para continuar.'});
             }
         }
-       
     }
-    _me(){
+     // Retorna informações do usuário 
+      me = async () => {
+      // Recuperando o valor do token.
+      try{
+         const token = await AsyncStorage.getItem('token');
+         console.log('Token me() ' + token);
+      }catch(error){
+        console.log(error);
+      }
+      //this.setState({teste: token});
       if(this.state.token != ''){
         axios.get('https://openredu.ufpe.br/api/me', {
           headers: {
@@ -90,6 +109,25 @@ export default class Init extends Component<Props> {
         })
      }
     }
+
+    storageToken = async (token) => {
+      try{
+        await AsyncStorage.setItem('token', token);
+      }catch(error){
+        console.log(error);
+      }
+    }
+
+    getToken = async () => {
+      try{
+        const token = await AsyncStorage.getItem('token');
+        return token;
+      }catch(error){
+        console.log(error);
+      }
+    }
+
+   
   render() {
     return (
       <View>
@@ -99,7 +137,7 @@ export default class Init extends Component<Props> {
           onPress={() => this.props.navigation.navigate('Auth')}
             />
           { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text>}
-          { !!this.state.token && <Button style={styles.getMeButton} title="Get me" onPress={() => this._me()}/>}
+          { !!this.state.token && <Button style={styles.getMeButton} title="Get me" onPress={() => this.me()}/>}
           { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text> }
 
           {!!this.state.first_name    && !!this.state.last_name   && <Text style={styles.tokenText}>Nome completo:   {this.state.first_name}  {this.state.last_name}  </Text>}
@@ -146,5 +184,9 @@ const styles = StyleSheet.create({
   },
   getMeButton: {
     paddingTop: 20,
+  },
+  getTokenButton: {
+    paddingTop: 60,
+    width: 90,
   }
 });
