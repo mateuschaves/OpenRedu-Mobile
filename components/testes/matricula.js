@@ -21,15 +21,17 @@ export default class Matricula extends Component {
       // Buscando todos os contatos do usuário.
       axios.get(`https://openredu.ufpe.br/api/users/${this.state.id}/connections`, {
         headers: {
+          // Token 
           'Authorization': 'Bearer ' + this.state.token,
         }
       })
       .then((response) => {
        this.setState({
+            // Armazenando a resposta no state contatos.
             contatos: this.state.contatos.cloneWithRows(response.data),
+            // Informando que o carregamento terminou.
             loading:  false,
        });
-       console.log(response.data);
       })
       .catch((error) => {
         console.log(error);

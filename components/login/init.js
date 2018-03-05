@@ -132,7 +132,7 @@ export default class Init extends Component<Props> {
           { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text>}
           { !!this.state.token && <Button style={styles.getMeButton} title="Get me" onPress={() => this.me()}/>}
           { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text>}
-          { !!this.state.token && <Button title="Ver matrículas" style={styles.buttonMatricula} onPress={() => this.props.navigation.navigate('MatriculaTeste', {
+          { !!this.state.token && <Button title="Ver conexões" style={styles.buttonMatricula} onPress={() => this.props.navigation.navigate('MatriculaTeste', {
             token: this.state.token,
             id:    this.state.id,
           })} />}
