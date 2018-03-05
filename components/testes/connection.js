@@ -3,14 +3,14 @@ import { Text, View, ListView, TouchableOpacity, StyleSheet } from 'react-native
 
 import axios from '../../lib/http';
 
-export default class Matricula extends Component {
+export default class Connection extends Component {
   state = {
     // Token de autenticação
     token:      this.props.navigation.state.params.token,
     // Id do usuário logado
     id:         this.props.navigation.state.params.id,
     // Lista de todos os contaos do usuário
-    contatos:   new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+    connection:   new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
     // Variável de controle do loading view.
     loading:    true,
   }
@@ -28,7 +28,7 @@ export default class Matricula extends Component {
       .then((response) => {
        this.setState({
             // Armazenando a resposta no state contatos.
-            contatos: this.state.contatos.cloneWithRows(response.data),
+            connection: this.state.connection.cloneWithRows(response.data),
             // Informando que o carregamento terminou.
             loading:  false,
        });
@@ -39,18 +39,18 @@ export default class Matricula extends Component {
     }
 }
 
-renderRow(contact){
+renderRow(connection){
     return(
       <TouchableOpacity style={styles.dadContatos}> 
           <View style={styles.viewContatos}>
-              <Text style={styles.infoContato}>Nome: {contact.contact.first_name} </Text>
-              <Text style={styles.infoContato}>Status: {contact.status}</Text>
+              <Text style={styles.infoContato}>Nome: {connection.contact.first_name} </Text>
+              <Text style={styles.infoContato}>Status: {connection.status}</Text>
           </View>
       </TouchableOpacity>
     )
   }
   render() {
-    console.log(this.state.contatos)
+    console.log(this.state.connection)
     if(this.state.loading){
       return (
         <View>
@@ -61,8 +61,8 @@ renderRow(contact){
       );
     }else{
       return <ListView
-                dataSource={this.state.contatos}
-                renderRow={contact => this.renderRow(contact)}/>
+                dataSource={this.state.connection}
+                renderRow={connection => this.renderRow(connection)}/>
     }
     
   }
