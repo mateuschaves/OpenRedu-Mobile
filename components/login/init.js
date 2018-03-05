@@ -34,7 +34,6 @@ export default class Init extends Component<Props> {
         email: '',
         login: '',
         friends: 0,
-        teste: ''
     }
       // Função executada após a montagem do componente.
         componentDidMount = async () =>  {
@@ -61,11 +60,13 @@ export default class Init extends Component<Props> {
                   redirect_uri:   redirect_uri,
                   code:           code,
                 }).then( async (response) => {
-                  this.setState({token: response.data.access_token});
                   // Usar o storage para armazenar o token.
                   try {
-                   this.storageToken(this.state.token);
-                   console.log(this.getToken());
+                   this.storageToken(response.data.access_token);
+                   const token = await this.getToken();
+                   this.setState({
+                     token: token
+                    });
                   }catch(error){
                     console.log(error);
                   }
@@ -81,14 +82,6 @@ export default class Init extends Component<Props> {
     }
      // Retorna informações do usuário 
       me = async () => {
-      // Recuperando o valor do token.
-      try{
-         const token = await AsyncStorage.getItem('token');
-         console.log('Token me() ' + token);
-      }catch(error){
-        console.log(error);
-      }
-      //this.setState({teste: token});
       if(this.state.token != ''){
         axios.get('https://openredu.ufpe.br/api/me', {
           headers: {
@@ -131,11 +124,8 @@ export default class Init extends Component<Props> {
   render() {
     return (
       <View>
-          <Text style={styles.textLogin}> Login </Text>
-          <Button
-          title="Login"
-          onPress={() => this.props.navigation.navigate('Auth')}
-            />
+          { !this.state.token && <Text style={styles.textLogin}> Login </Text> } 
+          { !this.state.token && <Button title="Login" onPress={() => this.props.navigation.navigate('Auth')} /> }
           { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text>}
           { !!this.state.token && <Button style={styles.getMeButton} title="Get me" onPress={() => this.me()}/>}
           { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text> }
