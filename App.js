@@ -26,6 +26,7 @@ const app = {
 import { StackNavigator } from 'react-navigation';
 import Auth  from './components/login/auth';
 import Init  from './components/login/init';
+import Matricula from './components/testes/matricula';
 
 export default StackNavigator({
   InitAuth: {
@@ -33,6 +34,9 @@ export default StackNavigator({
   },
   Auth: {
     screen: Auth,
-  }
+  },
+  MatriculaTeste: {
+    screen: Matricula,
+  },
 });
 

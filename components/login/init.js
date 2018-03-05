@@ -34,6 +34,7 @@ export default class Init extends Component<Props> {
         email: '',
         login: '',
         friends: 0,
+        id: 0,
     }
       // Função executada após a montagem do componente.
         componentDidMount = async () =>  {
@@ -64,6 +65,7 @@ export default class Init extends Component<Props> {
                   try {
                    this.storageToken(response.data.access_token);
                    const token = await this.getToken();
+                   console.log(token);
                    this.setState({
                      token: token
                     });
@@ -95,6 +97,7 @@ export default class Init extends Component<Props> {
             login:        response.data.login,
             friends:      response.data.friends_count,
             last_name:    response.data.last_name,
+            id:           response.data.id,
           })
         })
         .catch((error) => {
@@ -125,15 +128,20 @@ export default class Init extends Component<Props> {
     return (
       <View>
           { !this.state.token && <Text style={styles.textLogin}> Login </Text> } 
-          { !this.state.token && <Button title="Login" onPress={() => this.props.navigation.navigate('Auth')} /> }
+          { !this.state.token && <Button title="Login" onPress={() => this.props.navigation.navigate('Auth')} />}
           { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text>}
           { !!this.state.token && <Button style={styles.getMeButton} title="Get me" onPress={() => this.me()}/>}
-          { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text> }
+          { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text>}
+          { !!this.state.token && <Button title="Ver matrículas" style={styles.buttonMatricula} onPress={() => this.props.navigation.navigate('MatriculaTeste', {
+            token: this.state.token,
+            id:    this.state.id,
+          })} />}
 
           {!!this.state.first_name    && !!this.state.last_name   && <Text style={styles.tokenText}>Nome completo:   {this.state.first_name}  {this.state.last_name}  </Text>}
-          {!!this.state.email         && <Text style={styles.tokenText}>Email:  {this.state.email}  </Text>}
-          {!!this.state.login         && <Text style={styles.tokenText}>Login:  {this.state.login}  </Text>}
-          {!!this.state.friends       && <Text style={styles.tokenText}>Amigos:   {this.state.friends}   </Text>}
+          {!!this.state.email         && <Text style={styles.tokenText}>Email:    {this.state.email}      </Text>}
+          {!!this.state.login         && <Text style={styles.tokenText}>Login:    {this.state.login}      </Text>}
+          {!!this.state.friends       && <Text style={styles.tokenText}>Amigos:   {this.state.friends}    </Text>}
+          {!!this.state.id            && <Text style={styles.tokenText}>Id:       {this.state.id}         </Text>}
       </View>
     );
   }
@@ -178,5 +186,8 @@ const styles = StyleSheet.create({
   getTokenButton: {
     paddingTop: 60,
     width: 90,
+  },
+  buttonMatricula: {
+    paddingTop: 60,
   }
 });
