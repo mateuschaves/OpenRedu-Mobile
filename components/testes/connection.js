@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, ListView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 import axios from '../../lib/http';
 
@@ -43,8 +43,9 @@ renderRow(connection){
     return(
       <TouchableOpacity style={styles.dadContatos}> 
           <View style={styles.viewContatos}>
-              <Text style={styles.infoContato}>Nome: {connection.contact.first_name} </Text>
-              <Text style={styles.infoContato}>Status: {connection.status}</Text>
+              <Image  style={styles.image} source={{uri: 'https://openredu.ufpe.br' + connection.contact.thumbnails[2].href}} />
+              <Text   style={styles.infoContato}>  Nome:     {connection.contact.first_name} </Text>
+              <Text   style={styles.infoContato}>  Status:   {connection.status}             </Text>
           </View>
       </TouchableOpacity>
     )
@@ -64,7 +65,6 @@ renderRow(connection){
                 dataSource={this.state.connection}
                 renderRow={connection => this.renderRow(connection)}/>
     }
-    
   }
 }
 
@@ -72,15 +72,21 @@ const styles = StyleSheet.create({
   dadContatos: {
     alignItems: 'center',
     paddingTop: 20,
-    backgroundColor: 'black',
   },
   infoContato: {
     textAlign: 'center',
     fontWeight: 'bold',
   },
   viewContatos: {
-    width: 250,
+    width: 300,
     backgroundColor: 'white',
     borderRadius: 25,
+    shadowColor: 'black',
+  }, 
+  image: {
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    paddingBottom: 10,
   }
 })
