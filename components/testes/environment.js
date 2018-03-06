@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, ListView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 import axios from '../../lib/http';
 
@@ -41,9 +41,11 @@ export default class Environment extends Component {
 
 renderRow(environment){
     return(
-      <TouchableOpacity style={styles.dadContatos}> 
+      <TouchableOpacity style={styles.dadContatos}>
           <View style={styles.viewContatos}>
+              <Image style={styles.image} source={{uri: 'https://openredu.ufpe.br' + environment.thumbnails[1].href}} />
               <Text style={styles.infoContato}>Nome: {environment.name} </Text>
+              <Text style={styles.infoContato}>Quantidade de cursos : {environment.courses_count}</Text>
           </View>
       </TouchableOpacity>
     )
@@ -71,15 +73,20 @@ const styles = StyleSheet.create({
   dadContatos: {
     alignItems: 'center',
     paddingTop: 20,
-    backgroundColor: 'black',
   },
   infoContato: {
     textAlign: 'center',
     fontWeight: 'bold',
   },
   viewContatos: {
-    width: 250,
+    width: 300,
     backgroundColor: 'white',
     borderRadius: 25,
+  },
+  image: {
+    width: 90,
+    height: 90,
+    alignItems: 'center',
+    paddingBottom: 10,
   }
 })
