@@ -35,12 +35,22 @@ export default class Init extends Component<Props> {
         login: '',
         friends: 0,
         id: 0,
+        // Controlador do botão login.
+        showBtnLogin: true,
     }
       // Função executada após a montagem do componente.
         componentDidMount = async () =>  {
         /* Verificando se os parametros foram passados.
          * Verificando se a função já foi executada antes.
          */ 
+        const token = await this.getToken();
+        console.log(token);
+        if(token){
+          this.setState({
+              showBtnLogin: false,
+              token: token,
+          });
+        }
         if(this.state.params && this.state.control_request == 0){
             // Setando o valor 1, informando a execução da função.
             this.setState({control_request: 1});
@@ -65,7 +75,6 @@ export default class Init extends Component<Props> {
                   try {
                    this.storageToken(response.data.access_token);
                    const token = await this.getToken();
-                   console.log(token);
                    this.setState({
                      token: token
                     });
@@ -127,8 +136,8 @@ export default class Init extends Component<Props> {
   render() {
     return (
       <View>
-          { !this.state.token && <Text style={styles.textLogin}> Login </Text> } 
-          { !this.state.token && <Button title="Login" onPress={() => this.props.navigation.navigate('Auth')} />}
+          { !!this.state.showBtnLogin && <Text style={styles.textLogin}> Login </Text> } 
+          { !!this.state.showBtnLogin && <Button title="Login" onPress={() => this.props.navigation.navigate('Auth')} />}
           { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text>}
           { !!this.state.token && <Button style={styles.getMeButton} title="Get me" onPress={() => this.me()}/>}
           { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text>}
