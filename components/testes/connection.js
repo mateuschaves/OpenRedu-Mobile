@@ -51,7 +51,6 @@ renderRow(connection){
     )
   }
   render() {
-    console.log(this.state.connection)
     if(this.state.loading){
       return (
         <View>
