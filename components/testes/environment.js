@@ -51,7 +51,6 @@ renderRow(environment){
     )
   }
   render() {
-    console.log(this.state.environment);
     if(this.state.loading){
       return (
         <View>

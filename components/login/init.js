@@ -44,7 +44,6 @@ export default class Init extends Component<Props> {
          * Verificando se a função já foi executada antes.
          */ 
         const token = await this.getToken();
-        console.log(token);
         if(token){
           this.setState({
               showBtnLogin: false,
