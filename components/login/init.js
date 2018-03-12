@@ -19,7 +19,6 @@ export default class Init extends Component<Props> {
         headerTitle: <Text>Login</Text>
     };
     state = {
-        // Evita que o código seja executado duas vezes.
         // Gambiarra de um bug desconhecido.
         control_request: 0,
         // Parâmetros passados pelo auth.js.
@@ -50,6 +49,8 @@ export default class Init extends Component<Props> {
               token: token,
           });
         }
+        // Requisição que busca as informações do usuário logado.
+        this.me();
         if(this.state.params && this.state.control_request == 0){
             // Setando o valor 1, informando a execução da função.
             this.setState({control_request: 1});
@@ -113,7 +114,6 @@ export default class Init extends Component<Props> {
         })
      }
     }
-
     storageToken = async (token) => {
       try{
         await AsyncStorage.setItem('token', token);
@@ -121,7 +121,6 @@ export default class Init extends Component<Props> {
         console.log(error);
       }
     }
-
     getToken = async () => {
       try{
         const token = await AsyncStorage.getItem('token');
@@ -138,24 +137,21 @@ export default class Init extends Component<Props> {
           { !!this.state.showBtnLogin && <Text style={styles.textLogin}> Login </Text> } 
           { !!this.state.showBtnLogin && <Button title="Login" onPress={() => this.props.navigation.navigate('Auth')} />}
           { !!this.state.token && <Text style={styles.tokenText}>Token de acesso : {this.state.token}</Text>}
-          { !!this.state.token && <Button style={styles.getMeButton} title="Get me" onPress={() => this.me()}/>}
           { !!this.state.msg_token_not_provided && <Text style={styles.tokenText}>{this.state.msg_token_not_provided}</Text>}
-          
           { !!this.state.token && <Button title="Ver conexões" style={styles.buttonMatricula} onPress={() => this.props.navigation.navigate('ConnectionsTest', {
             token: this.state.token,
             id:    this.state.id,
           })} />}
-
           { !!this.state.token && <Button title="Ver ambientes" style={styles.buttonAmbientes} onPress={() => this.props.navigation.navigate('EnvironmentTest', {
             token: this.state.token,
             id:    this.state.id,
           })} />}
-
           {!!this.state.first_name    && !!this.state.last_name   && <Text style={styles.tokenText}>Nome completo:   {this.state.first_name}  {this.state.last_name}  </Text>}
           {!!this.state.email         && <Text style={styles.tokenText}>Email:    {this.state.email}      </Text>}
           {!!this.state.login         && <Text style={styles.tokenText}>Login:    {this.state.login}      </Text>}
           {!!this.state.friends       && <Text style={styles.tokenText}>Amigos:   {this.state.friends}    </Text>}
           {!!this.state.id            && <Text style={styles.tokenText}>Id:       {this.state.id}         </Text>}
+          {!!this.state.errorMsg      && <Text style={styles.tokenText}>Error:    {this.state.errorMsg}   </Text>}
       </View>
     );
   }

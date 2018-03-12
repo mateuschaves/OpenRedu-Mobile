@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ListView, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 import axios from '../../lib/http';
+import { StackNavigator } from 'react-navigation';
 
 export default class Connection extends Component {
   state = {
@@ -17,7 +18,7 @@ export default class Connection extends Component {
   // Inicializado assim que o componente acaba de montar.
   componentDidMount = async () =>  {
     // Verificando se existe o token.
-    if(this.state.token){
+    if(this.state.token && this.state.id){
       // Buscando todos os contatos do usuário.
       axios.get(`https://openredu.ufpe.br/api/users/${this.state.id}/connections`, {
         headers: {
@@ -36,9 +37,11 @@ export default class Connection extends Component {
       .catch((error) => {
         console.log(error);
       });
+    }else{
+      // Id ou token não informado, redirecionando para a tela anterior.
+      this.props.navigation.navigate('InitAuth');
     }
 }
-
 renderRow(connection){
     return(
       <TouchableOpacity style={styles.dadContatos}> 
