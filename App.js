@@ -14,8 +14,6 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
-
-
 type Props = {};
 const app = {
   client_id:      'qHnf1X6EXNnx5Z9DeyAvPRO72ndV8xPsSvbv4uLe',
@@ -31,6 +29,7 @@ import Environment from './components/testes/environment';
 import Profile from './components/testes/profile';
 import ShowEnvironment from './components/testes/showenvironment';
 import Space from './components/testes/space';
+import Subject from './components/testes/subjects';
 
 export default StackNavigator({
   InitAuth: {
@@ -53,6 +52,9 @@ export default StackNavigator({
   },
   SpaceTest: {
     screen: Space,
+  },
+  SubjectTest: {
+    screen: Subject,
   }
 });
 

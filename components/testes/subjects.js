@@ -4,17 +4,17 @@ import { Text, View, ListView, TouchableOpacity, StyleSheet, Image, AsyncStorage
 import axios from '../../lib/http';
 import { StackNavigator } from 'react-navigation';
 
-export default class Space extends Component {
-  static navigationOptions = {
-    title: 'Disciplinas',
+export default class Subjects extends Component {
+  static navigationOptions ={
+      title: 'Aulas'
   };
   state = {
     // Token de autenticação.
     token:      this.props.navigation.state.params.params.token,
-    // Id do curso.
+    // Id da disciplina.
     id:         this.props.navigation.state.params.params.id,
-    // Lista de todos as disciplinas. 
-    spaces:   new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+    // Lista de todos as aulas. 
+    subjects:   new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
     // Variável de controle do loading view.
     loading:    true,
     // Variável de controle para o refresh das conexões do storage.
@@ -26,8 +26,8 @@ export default class Space extends Component {
     console.log(this.state.token);
     console.log(this.state.id);
     if(this.state.token && this.state.id){
-      // Buscando todos as disciplinas do curso.
-      axios.get(`https://openredu.ufpe.br/api/courses/${this.state.id}/spaces`, {
+      // Buscando todos as aulas da disciplina.
+      axios.get(`https://openredu.ufpe.br/api/spaces/${this.state.id}/subjects`, {
         headers: {
           // Token 
           'Authorization': 'Bearer ' + this.state.token,
@@ -37,7 +37,7 @@ export default class Space extends Component {
        console.log(response.data);
        this.setState({
             // Armazenando a resposta no state.
-            spaces: this.state.spaces.cloneWithRows(response.data),
+            subjects: this.state.subjects.cloneWithRows(response.data),
             // Informando que o carregamento terminou.
             loading:  false,
        });
@@ -50,21 +50,12 @@ export default class Space extends Component {
       //this.props.navigation.navigate('InitAuth');
     }
 }
-renderRow(space){
+renderRow(subject){
     return(
-      <TouchableOpacity onPress={ 
-        () => {
-          this.props.navigation.navigate('SubjectTest', {
-            params: {
-              id: space.id,
-              token: this.state.token,
-            }
-         });
-        }
-      }> 
-          <View style={styles.space}>
-              <Text   style={styles.name}>{space.name}</Text>
-              <Text   style={styles.description}>{space.description}</Text>
+      <TouchableOpacity> 
+          <View style={styles.subject}>
+              <Text   style={styles.name}>{subject.name}</Text>
+              <Text   style={styles.description}>{subject.description}</Text>
           </View>
       </TouchableOpacity>
     )
@@ -80,8 +71,8 @@ renderRow(space){
       );
     }else{
       return <ListView
-                dataSource={this.state.spaces}
-                renderRow={space => this.renderRow(space)}/>
+                dataSource={this.state.subjects}
+                renderRow={subject => this.renderRow(subject)}/>
     }
   }
 }
@@ -97,7 +88,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     margin: 3,
   },
-  space: {
+  subject: {
     width: 300,
     backgroundColor: 'white',
     borderRadius: 25,
