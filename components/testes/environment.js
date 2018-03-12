@@ -3,6 +3,8 @@ import { Text, View, ListView, TouchableOpacity, StyleSheet, Image } from 'react
 
 import axios from '../../lib/http';
 
+import { StackNavigator } from 'react-navigation';
+
 export default class Environment extends Component {
   state = {
     // Token de autenticação

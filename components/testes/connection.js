@@ -27,6 +27,7 @@ export default class Connection extends Component {
         }
       })
       .then((response) => {
+       console.log(response.data);
        this.setState({
             // Armazenando a resposta no state contatos.
             connection: this.state.connection.cloneWithRows(response.data),
@@ -44,7 +45,16 @@ export default class Connection extends Component {
 }
 renderRow(connection){
     return(
-      <TouchableOpacity style={styles.dadContatos}> 
+      <TouchableOpacity style={styles.dadContatos} onPress={
+        () => {
+          this.props.navigation.navigate('ProfileTest', {
+             params: {
+               id: connection.id,
+               token: this.state.token,
+             }
+          });
+        }
+      }> 
           <View style={styles.viewContatos}>
               <Image  style={styles.image} source={{uri: 'https://openredu.ufpe.br' + connection.contact.thumbnails[2].href}} />
               <Text   style={styles.infoContato}>  Nome:     {connection.contact.first_name} </Text>
