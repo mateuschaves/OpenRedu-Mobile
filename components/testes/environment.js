@@ -43,7 +43,16 @@ export default class Environment extends Component {
 
 renderRow(environment){
     return(
-      <TouchableOpacity style={styles.dadContatos}>
+      <TouchableOpacity style={styles.dadContatos} onPress={
+        () => {
+          this.props.navigation.navigate('ShowEnvironment', {
+            params: {
+              id: environment.id,
+              token: this.state.token,
+            }
+          });
+        }
+      }>
           <View style={styles.viewContatos}>
               <Image style={styles.image} source={{uri: 'https://openredu.ufpe.br' + environment.thumbnails[1].href}} />
               <Text style={styles.infoContato}>Nome: {environment.name} </Text>

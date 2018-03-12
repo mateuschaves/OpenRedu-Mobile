@@ -29,6 +29,7 @@ import Init  from './components/login/init';
 import Connection from './components/testes/connection';
 import Environment from './components/testes/environment';
 import Profile from './components/testes/profile';
+import ShowEnvironment from './components/testes/showenvironment';
 
 export default StackNavigator({
   InitAuth: {
@@ -45,6 +46,9 @@ export default StackNavigator({
   },
   ProfileTest: {
     screen: Profile,
+  },
+  ShowEnvironment: {
+    screen: ShowEnvironment,
   }
 });
 
