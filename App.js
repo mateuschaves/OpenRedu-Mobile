@@ -30,6 +30,7 @@ import Connection from './components/testes/connection';
 import Environment from './components/testes/environment';
 import Profile from './components/testes/profile';
 import ShowEnvironment from './components/testes/showenvironment';
+import Space from './components/testes/space';
 
 export default StackNavigator({
   InitAuth: {
@@ -49,6 +50,9 @@ export default StackNavigator({
   },
   ShowEnvironment: {
     screen: ShowEnvironment,
+  },
+  SpaceTest: {
+    screen: Space,
   }
 });
 

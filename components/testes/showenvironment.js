@@ -74,6 +74,7 @@ export default class ShowEnvironment extends Component<Props> {
           }
        }).then((response) => {
            let data = response.data;
+           console.log(data);
            // Salvando o resultado no estado do componente.
            this.setState({
                courses: this.state.courses.cloneWithRows(data),
@@ -85,7 +86,16 @@ export default class ShowEnvironment extends Component<Props> {
     // Renderiza cada item da lista.
     renderRow(course){
         return(
-          <TouchableOpacity> 
+          <TouchableOpacity onPress={
+            () => {
+              this.props.navigation.navigate('SpaceTest', {
+                params: {
+                  id: course.id,
+                  token: this.state.token,
+                }
+             });
+            }
+          }> 
               <View style={styles.course}>
                   <Text style={styles.course_name}>{course.name}</Text>
               </View>
