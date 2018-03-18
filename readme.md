@@ -1,6 +1,6 @@
 # OpenRedu Mobile
 
-Teste de implementação de um aplicativo para a plataforma OpenRedu, utilizando React Native.
+Teste de implementação de um aplicativo para a plataforma OpenRedu utilizando React Native.
 
 
 ## Pré-requisitos
@@ -41,6 +41,6 @@ react-native run-ios
 
 ## Contribuidores
 
-* **Mateus Henrique** -  (mateus.henriquechaves@ufpe.br)
+* **Mateus Henrique** -  ( mateus.henriquechaves@ufpe.br ).
 
 
