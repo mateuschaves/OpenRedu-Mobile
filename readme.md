@@ -7,9 +7,9 @@ Teste de implementação de um aplicativo para a plataforma OpenRedu, utilizando
 
 Dependências necessárias para rodar o projeto: 
 
-[React Native 0.54+](https://facebook.github.io/react-native/).
-[Marshmallow API Level 23, x86_64 ABI image with a Android 6.0 (Google APIs)](https://www.genymotion.com/).
-[NodeJS](https://nodejs.org/en/).
+* [React Native 0.54+](https://facebook.github.io/react-native/).
+* [Marshmallow API Level 23, x86_64 ABI image with a Android 6.0 (Google APIs)](https://www.genymotion.com/).
+* [NodeJS](https://nodejs.org/en/).
 
 
 ## Instalando
@@ -41,6 +41,6 @@ react-native run-ios
 
 ## Contribuidores
 
-* **Mateus Henrique** -  [GitHub](https://github.com/mateuschaves)
+* **Mateus Henrique** -  (mateus.henriquechaves@ufpe.br)
 
 
